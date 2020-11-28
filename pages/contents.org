@@ -1,1 +1,3 @@
 ** linux操作
+** sed
+** linux后台运行
