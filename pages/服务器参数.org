@@ -1,4 +1,4 @@
-#+TITLE: 查看linux服务器信息
+#+TITLE: 服务器参数
 
 ** https://www.cnblogs.com/ccbloom/p/11302950.html
 ** 相关概念
