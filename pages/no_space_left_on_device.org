@@ -1,0 +1,87 @@
+#+TITLE: no space left on device
+
+** https://blog.csdn.net/youmatterhsp/article/details/80382552
+** 关于“no space left on device”（磁盘空间不足）问题
+
+1.首先介绍两个命令
+df -h查看磁盘使用情况
+df -i 查看inode使用情况
+2.block满了
+通常解决方法是删除大文件，不要直接删除，先确认数据是否重要，否则就掉坑里了。
+
+[root@linuxidc ~]# cd /app/logs/
+[root@linuxidc logs]# ls -lh /bin/ls
+-rwxr-xr-x. 1 root root 107K Mar 23 02:52 /bin/ls
+[root@linuxidc logs]# df -h
+Filesystem    Size  Used Avail Use% Mounted on
+/dev/sdc        73K  14K  55K  21% /app/logs
+[root@linuxidc logs]# cp /bin/ls .
+cp: writing `./ls': No space left on device
+[root@linuxidc logs]# df -h
+Filesystem    Size  Used Avail Use% Mounted on
+/dev/sdc        73K  70K    0 100% /app/logs
+[root@linuxidc logs]#
+
+3.inode用光了
+出现这种情况，是小文件占用较多的inode，创建文件或目录占用一个inode，通常这些小文件是定时任务引起的，删除需慎重。
+
+ [root@linuxidclogs]# df -h  
+Filesystem    Size  Used Avail Use% Mounted on
+/dev/sdc        73K  14K  55K  21% /app/logs
+[root@linuxidc logs]# df -i
+Filesystem    Inodes IUsed  IFree IUse% Mountedon
+/dev/sdc          16    11      5  69% /app/logs
+[root@linuxidc logs]# touch a{1..6}txt
+touch: cannot touch `a6txt': No space left ondevice
+[root@linuxidc logs]# df -h
+Filesystem    Size  Used Avail Use% Mounted on
+/dev/sdc        73K  14K  55K  21% /app/logs
+[root@linuxidc logs]# df -i
+Filesystem    Inodes IUsed  IFree IUse% Mountedon
+/dev/sdc          16    16      0  100% /app/logs
+[root@linuxidc logs]#
+
+-------------------------
+
+1.问题描述
+no space left on device（磁盘空间不足）
+2.文件删除原理
+（1）硬链接数为0（所有硬链接均被删除）
+（2）进程调用数为0（没有进程在调度文件）
+3.原因分析
+硬链接数为0，进程调度数不为0
+4.过程演示
+（1）创建大文件
+
+[root@linuxidc ~]# seq 500000000 > /var/log/messages 
+（2）查看磁盘使用情况
+
+[root@linuxidc ~]# df -h
+Filesystem    Size  Used Avail Use% Mounted on
+/dev/sda3      19G  6.1G  12G  35% /
+ 
+
+（3）删除日志文件/var/log/messages
+[root@linuxidc ~]# rm -rf /var/log/messages 
+（4）查看空间是否被释放
+
+[root@linuxidc ~]# df -h
+Filesystem    Size  Used Avail Use% Mounted on
+/dev/sda3      19G  6.1G  12G  35% /
+ 
+（5）查看文件还被哪些进程调用
+
+[root@linuxidc ~]# lsof | grep delete
+rsyslogd 2839      root    1w    REG                8,3 4888888898    393106 /var/log/messages (deleted)
+
+（6）重启对应的服务
+
+[root@linuxidc ~]# /etc/init.d/rsyslog restart
+Shutting down system logger:                        [  OK  ]
+Starting system logger:                                    [  OK  ]
+ 
+（7）检查磁盘使用情况
+
+[root@linuxidc ~]# df -h
+Filesystem    Size  Used Avail Use% Mounted on
+/dev/sda3        19G 1.5G  17G  9% /
