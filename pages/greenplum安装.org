@@ -1,4 +1,4 @@
-#+TITLE: greenplum
+#+TITLE: greenplum安装
 
 ** 官方文档 http://docs.greenplum.org/6-8/ref_guide/ref_guide.html
 ** 参考文档1 https://www.cnblogs.com/liuyungao/p/5689588.html
