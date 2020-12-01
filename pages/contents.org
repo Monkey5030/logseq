@@ -5,5 +5,5 @@
 ** [[查看Linux服务器信息]]
 ** [[服务器参数]]
 ** [[no space left on device]]
-** [[greenplum]]
+** [[greenplum安装]]
 ** [[镜像源]]
