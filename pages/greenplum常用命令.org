@@ -1,0 +1,199 @@
+#+TITLE: greenplum常用命令
+
+** https://blog.csdn.net/u010457406/article/details/75647167
+** 连接数据库, 默认的用户和数据库是postgres
+
+psql -U user -d dbname
+1
+切换数据库,相当于MySQL的use dbname
+
+\c dbname
+1
+列举数据库，相当于mysql的show databases
+
+\l
+1
+列举表，相当于mysql的show tables
+
+\dt
+1
+查看表结构，相当于desc tblname,show columns from tbname
+
+\d tblname
+1
+查看索引
+
+\di
+1
+查看函数
+
+\df
+1
+创建数据库
+
+create database [数据库名]; 
+1
+删除数据库：
+
+drop database [数据库名];  
+1
+*重命名一个表：
+
+alter table [表名A] rename to [表名B]; 
+1
+*删除一个表：
+
+drop table [表名]; 
+1
+*在已有的表里添加字段：
+
+alter table [表名] add column [字段名] [类型]; 
+1
+*删除表中的字段：
+
+alter table [表名] drop column [字段名]; 
+1
+*重命名一个字段：
+
+alter table [表名] rename column [字段名A] to [字段名B]; 
+1
+*给一个字段设置缺省值：
+
+alter table [表名] alter column [字段名] set default [新的默认值];
+1
+*去除缺省值：
+
+alter table [表名] alter column [字段名] drop default; 
+1
+在表中插入数据：
+
+insert into 表名 ([字段名m],[字段名n],......) values ([列m的值],[列n的值],......); 
+1
+修改表中的某行某列的数据：
+
+update [表名] set [目标字段名]=[目标值] where [该行特征]; 
+1
+删除表中某行数据：
+
+delete from [表名] where [该行特征]; 
+delete from [表名];--删空整个表 
+1
+2
+创建表：
+
+create table ([字段名1] [类型1] <references 关联表名(关联的字段名)>;,[字段名2] [类型2],......<,primary key (字段名m,字段名n,...)>;); 
+1
+显示 PostgreSQL 的使用和发行条款
+
+\copyright    
+1
+显示或设定用户端字元编码
+
+\encoding [字元编码名称]
+1
+SQL 命令语法上的说明，用 * 显示全部命令
+
+\h [名称]     
+1
+提示用户设定内部变数
+
+\prompt [文本] 名称
+1
+修改用户密码
+
+\password [USERNAME]
+1
+退出 psql
+
+\q 
+1
+可以使用pg_dump和pg_dumpall来完成。比如备份sales数据库：
+
+pg_dump drupal>/opt/Postgresql/backup/1.bak
+** ABORT                            CREATE USER MAPPING
+  ALTER AGGREGATE                  CREATE VIEW
+  ALTER COLLATION                  DEALLOCATE
+  ALTER CONVERSION                 DECLARE
+  ALTER DATABASE                   DELETE
+  ALTER DEFAULT PRIVILEGES         DISCARD
+  ALTER DOMAIN                     DO
+  ALTER EVENT TRIGGER              DROP AGGREGATE
+  ALTER EXTENSION                  DROP CAST
+  ALTER EXTERNAL TABLE             DROP COLLATION
+  ALTER FOREIGN DATA WRAPPER       DROP CONVERSION
+  ALTER FOREIGN TABLE              DROP DATABASE
+  ALTER FUNCTION                   DROP DOMAIN
+  ALTER GROUP                      DROP EVENT TRIGGER
+  ALTER INDEX                      DROP EXTENSION
+  ALTER LANGUAGE                   DROP EXTERNAL TABLE
+  ALTER LARGE OBJECT               DROP FOREIGN DATA WRAPPER
+  ALTER MATERIALIZED VIEW          DROP FOREIGN TABLE
+  ALTER OPERATOR                   DROP FUNCTION
+  ALTER OPERATOR CLASS             DROP GROUP
+  ALTER OPERATOR FAMILY            DROP INDEX
+  ALTER PROTOCOL                   DROP LANGUAGE
+  ALTER RESOURCE GROUP             DROP MATERIALIZED VIEW
+  ALTER RESOURCE QUEUE             DROP OPERATOR
+  ALTER ROLE                       DROP OPERATOR CLASS
+  ALTER RULE                       DROP OPERATOR FAMILY
+  ALTER SCHEMA                     DROP OWNED
+  ALTER SEQUENCE                   DROP PROTOCOL
+  ALTER SERVER                     DROP RESOURCE GROUP
+  ALTER SYSTEM                     DROP RESOURCE QUEUE
+  ALTER TABLE                      DROP ROLE
+  ALTER TABLESPACE                 DROP RULE
+  ALTER TEXT SEARCH CONFIGURATION  DROP SCHEMA
+  ALTER TEXT SEARCH DICTIONARY     DROP SEQUENCE
+  ALTER TEXT SEARCH PARSER         DROP SERVER
+  ALTER TEXT SEARCH TEMPLATE       DROP TABLE
+  ALTER TRIGGER                    DROP TABLESPACE
+  ALTER TYPE                       DROP TEXT SEARCH CONFIGURATION
+  ALTER USER                       DROP TEXT SEARCH DICTIONARY
+  ALTER USER MAPPING               DROP TEXT SEARCH PARSER
+  ALTER VIEW                       DROP TEXT SEARCH TEMPLATE
+  ANALYZE                          DROP TRIGGER
+  BEGIN                            DROP TYPE
+  CHECKPOINT                       DROP USER
+  CLOSE                            DROP USER MAPPING
+  CLUSTER                          DROP VIEW
+  COMMENT                          END
+  COMMIT                           EXECUTE
+  COMMIT PREPARED                  EXPLAIN
+  COPY                             FETCH
+  CREATE AGGREGATE                 GRANT
+  CREATE CAST                      INSERT
+  CREATE COLLATION                 LISTEN
+  CREATE CONVERSION                LOAD
+  CREATE DATABASE                  LOCK
+  CREATE DOMAIN                    MOVE
+  CREATE EVENT TRIGGER             NOTIFY
+  CREATE EXTENSION                 PREPARE
+  CREATE EXTERNAL TABLE            PREPARE TRANSACTION
+  CREATE FOREIGN DATA WRAPPER      REASSIGN OWNED
+  CREATE FOREIGN TABLE             REFRESH MATERIALIZED VIEW
+  CREATE FUNCTION                  REINDEX
+  CREATE GROUP                     RELEASE SAVEPOINT
+  CREATE INDEX                     RESET
+  CREATE LANGUAGE                  REVOKE
+  CREATE MATERIALIZED VIEW         ROLLBACK
+  CREATE OPERATOR                  ROLLBACK PREPARED
+  CREATE OPERATOR CLASS            ROLLBACK TO SAVEPOINT
+  CREATE OPERATOR FAMILY           SAVEPOINT
+  CREATE PROTOCOL                  SECURITY LABEL
+  CREATE RESOURCE GROUP            SELECT
+  CREATE RESOURCE QUEUE            SELECT INTO
+  CREATE ROLE                      SET
+  CREATE RULE                      SET CONSTRAINTS
+  CREATE SCHEMA                    SET ROLE
+  CREATE SEQUENCE                  SET SESSION AUTHORIZATION
+  CREATE SERVER                    SET TRANSACTION
+  CREATE TABLE                     SHOW
+  CREATE TABLE AS                  START TRANSACTION
+  CREATE TABLESPACE                TABLE
+  CREATE TEXT SEARCH CONFIGURATION TRUNCATE
+  CREATE TEXT SEARCH DICTIONARY    UNLISTEN
+  CREATE TEXT SEARCH PARSER        UPDATE
+  CREATE TEXT SEARCH TEMPLATE      VACUUM
+  CREATE TRIGGER                   VALUES
+  CREATE TYPE                      WITH
+  CREATE USER
