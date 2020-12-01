@@ -6,3 +6,4 @@
 ** [[服务器参数]]
 ** [[no space left on device]]
 ** [[greenplum]]
+** [[镜像源]]
