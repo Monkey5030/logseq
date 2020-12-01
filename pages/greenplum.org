@@ -3,3 +3,4 @@
 ** 官方文档 http://docs.greenplum.org/6-8/ref_guide/ref_guide.html
 ** 参考文档1 https://www.cnblogs.com/liuyungao/p/5689588.html
 ** 参考文档2 https://blog.csdn.net/king13127/article/details/83989704
+** 参考文档3 https://www.cnblogs.com/grapelet520/p/11304543.html
