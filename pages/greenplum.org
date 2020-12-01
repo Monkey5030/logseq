@@ -1,0 +1,4 @@
+#+TITLE: greenplum
+
+** 官方文档 http://docs.greenplum.org/6-8/ref_guide/ref_guide.html
+** 参考文档
