@@ -7,3 +7,5 @@
 ** [[no space left on device]]
 ** [[greenplum安装]]
 ** [[镜像源]]
+** [[greenplum常用命令]]
+** [[删除指定大小的文件]]
