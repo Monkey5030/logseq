@@ -1,0 +1,5 @@
+#+TITLE: 删除指定大小的文件
+
+** https://blog.csdn.net/yellow_a/article/details/48086801
+** find . -name "*" -type f -size 0c | xargs -n 1 rm -f
+用这个还可以删除指定大小的文件，只要修改对应的 -size 参数就行
