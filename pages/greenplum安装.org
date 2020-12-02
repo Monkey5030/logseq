@@ -4,3 +4,4 @@
 ** 参考文档1 https://www.cnblogs.com/liuyungao/p/5689588.html
 ** 参考文档2 https://blog.csdn.net/king13127/article/details/83989704
 ** 参考文档3 https://www.cnblogs.com/grapelet520/p/11304543.html
+** 参考文档4 https://www.yuque.com/databingo/greenplum/ldveg3
