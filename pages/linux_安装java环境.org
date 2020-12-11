@@ -1,0 +1,16 @@
+#+TITLE: linux 安装java环境
+
+** 早上重启了次centos ,然后查看jdk版本就。。。。。
+centos 7 查看jdk 版本出现：
+
+Error: Could not create the Java Virtual Machine.
+Error: A fatal exception has occurred. Program will exit.
+1
+2
+目前这个错误也算是一个坑了 差点把自己埋了。。。。。
+解决方法：就是先看看下载在目录下安装包的版本，jdk1.7 — jdk1.8
+在centos7 当中操作指令集是不一样的 ，jdk1.7 查看版本号可以通过 java -Vand java --version 查看，
+而jdk1.8 就得通过 java -version来查看版本号了
+
+查看工具的操作指令集
+工具名 -h
