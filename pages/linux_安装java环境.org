@@ -53,3 +53,4 @@ source /etc/profile
 java -version
 
 显示 java 版本信息，则说明 JDK 安装成功
+*** https://www.cnblogs.com/wjup/p/11041274.html
