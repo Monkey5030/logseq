@@ -12,3 +12,4 @@
 ** [[python操作linux目录]]
 ** [[杀死挂起的进程 Ctrl+Z]]
 ** [[linux 安装java环境]]
+** [[mysql 安装]]
