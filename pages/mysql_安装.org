@@ -11,3 +11,119 @@ c. 修改配置文件my.ini，添加一条语句，增加UTF8字符支持。
 d. 修改root用户密码及权限。先在my.ini文件中添加skip-grant-tables，使其跳过认证，然后无密码登陆数据库，配置密码和权限后，要把配置文件中刚才加入的skip-grant-tables注释掉，否则会报错。
 e. 根据需要创建相应emm数据库及用户. 
 f.  初始化数据库。
+** #!/bin/bash
+
+#created by Kevin 2016/03/30, modify 2016/04/20
+
+# -----------------------------------------------------------------------------
+# Installation Script for the auto-deployment EMM(Linux edition)
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# shell script to install MySQL (default version mysql-community-5.7.11)
+
+
+echo "-----------------------start install mysql----------------------"
+
+
+# Add to mysql user and mysql group
+
+if [ `grep "mysql" /etc/passwd | wc -l` -eq 0 ];then
+echo "adding user mysql"
+groupadd mysql
+useradd -r -g mysql mysql
+else
+echo "mysql user is exist"
+fi
+
+# check installed mysql or not
+for i in `rpm -qa | grep "mysql"`
+do 
+rpm -e --allmatches $i --nodeps
+done
+
+# Remove pre-installed on OS MariaDB if exists
+
+for i in $(rpm -qa | grep mariadb | grep -v grep)
+do
+  echo "Deleting rpm --> "$i
+  rpm -e --nodeps $i
+done
+
+
+# Install mysqlserver
+
+rpm -ivh mysql-community-server-5.7.11-1.el7.x86_64.rpm mysql-community-client-5.7.11-1.el7.x86_64.rpm mysql-community-common-5.7.11-1.el7.x86_64.rpm mysql-community-libs-5.7.11-1.el7.x86_64.rpm
+
+
+# check the installtation was successful or not 
+rpm -qa |grep "mysql"
+if [ $? != 0 ];then
+echo "mysql install fail"| tee $mysql_instlog
+exit 1
+else 
+echo "mysql isntall success"| tee $mysql_instlog
+fi
+
+# modify configuration files  
+cd /etc/
+echo "character_set_server=utf8" >> my.cnf
+
+# startup the mysql
+systemctl start mysqld 
+systemctl status mysqld
+/etc/init.d/mysqld start 
+/etc/init.d/mysqld stop
+
+echo "MySQL Server install successfully!"
+
+# configuration
+cat /etc/my.cnf
+sed -i '/mysqld/a\skip-grant-tables' /etc/my.cnf
+systemctl restart mysqld
+# mysql -u root mysql
+mysql -u root mysql -e "use mysql;"
+# use mysql
+# update mysql.user set authentication_string=password('root') where user='root' ;
+mysql -u root mysql -e "update mysql.user set authentication_string=password('root') where user='root' ;"
+mysql -u root mysql -e "flush privileges;"
+
+cat /etc/my.cnf
+sed -i '/skip-grant-tables/s/^/#/' /etc/my.cnf
+# mysql -u root -p
+# SET PASSWORD = PASSWORD('root');
+mysql -u root -proot --connect-expired-password -e "SET PASSWORD = PASSWORD('root');"
+
+# mysql -u root mysql
+# use mysql;
+mysql -u root -proot -e "use mysql;"
+# update user set host = '%' where user ='root';
+mysql -u root -proot -e "update user set host = '%' where user ='root';"
+# select host, user from user; 
+mysql -u root -proot -e "select host, user from user;"
+# exit
+
+mysql -u root -proot -e "source /usr/src/tools/user.sql;"
+mysql -u root -proot -e "source /usr/src/tools/emm_saas_base.sql;"
+# create a new database, name as "emm_saas_base"
+# mysql -u root -p
+# create database emm_saas_base;
+# mysql -u root -proot -e "create database emm_saas_base;"
+# show databases;
+# mysql -u root -proot -e "show databases;"
+
+# initdb 
+# for x in find . -name "*.sql"
+# do source emm_saas_base.sql
+# done
+
+# create user & authentication
+# mysql -u root -p
+# CREATE USER 'emm'@'%' IDENTIFIED BY 'emm';
+# GRANT ALL ON *.* TO 'emm'@'%';
+
+# show user in the DB
+# select host,user from mysql.user;
+mysql -u root -proot -e "select host,user from mysql.user;"
+
+echo "The MySQL install and config complete! "
