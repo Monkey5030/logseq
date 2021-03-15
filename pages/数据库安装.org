@@ -1,0 +1,61 @@
+#+TITLE: 数据库安装
+
+** #查找镜像 MySQL5.7安装
+yum repolist all | grep mysql
+
+#下载安装包
+wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm
+#开始安装
+yum -y install mysql57-community-release-el7-10.noarch.rpm
+yum -y install mysql-community-server
+
+修改数据存储位置
+在/home下新建data文件夹
+cd /home
+mkdir data
+
+mv /var/lib/mysql/* /home/data
+
+修改配置文件
+vi /etc/my.cnf
+[mysqld]
+datadir=/home/data/mysql
+socket=/home/data/mysql/mysql.sock
+
+#最大连接数设置
+max_connections=10000
+[client]
+default-character-set=utf8
+socket=/home/data/mysql/mysql.sock
+[mysql]
+default-character-set=utf8
+socket=/home/data/mysql/mysql.sock
+
+
+#开启服务
+systemctl start mysqld.service
+#修改配置文件，跳过验证
+cat /var/log/mysqld.log  | grep password  查找密码   0jqBga>Y?,v7 
+能查找到则不执行下面这一行
+sed -i '/mysqld/a\skip-grant-tables' /etc/my.cnf
+
+#修改密码及开放远程访问
+mysql -uroot -p -A 
+use mysql;
+update user set authentication_string=password('xxxxxxxxx') where user='root';
+flush privileges;
+
+新建远程访问用户
+GRANT ALL PRIVILEGES ON *.* TO 'user01'@'%' IDENTIFIED BY '12345678..' WITH GRANT OPTION;
+flush privileges;
+exit
+
+防火墙端口开放
+firewall-cmd --zone=public --add-port=3306/tcp --permanent
+
+设置开机启动
+systemctl enable mysqld
+systemctl daemon-reload
+
+error 1820
+alter user user() identified by "xxxxxxx";

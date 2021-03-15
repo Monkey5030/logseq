@@ -1,0 +1,19 @@
+#+TITLE: 前端
+
+** 折线堆叠图y轴刻度显示和实际数据不符
+** series: [
+        {
+            name: '邮件营销',
+            type: 'line',
+            stack: '总量',
+            areaStyle: {},
+            data: [120, 132, 101, 134, 90, 230, 210]
+        }]
+** 解决办法为删除stack行
+** series: [
+        {
+            name: '邮件营销',
+            type: 'line',
+            areaStyle: {},
+            data: [120, 132, 101, 134, 90, 230, 210]
+        }]
