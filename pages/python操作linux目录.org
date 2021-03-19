@@ -3,10 +3,10 @@
 ** https://www.cnblogs.com/shantu/p/4598940.html
 ** 1、取得当前目录——os.getcwd()
 
->>> import os
->>> s=os.getcwd()#获得当前运行脚本所在目录
->>> s
-'C:\\Python27'
+>>> import os  
+>>> s=os.getcwd()#获得当前运行脚本所在目录  
+>>> s  
+'C:\\Python27'  
 比如运行test.py，那么输入该命令就会返回脚本所在的文件夹位置。
 
 例如将test.py放入A文件夹。并且希望不管将A文件夹放在硬盘的哪个位置，都可以在A文件夹内生成一个新文件夹。且文件夹的名字根据时间自动生成。
