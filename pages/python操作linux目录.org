@@ -11,8 +11,8 @@
 
 例如将test.py放入A文件夹。并且希望不管将A文件夹放在硬盘的哪个位置，都可以在A文件夹内生成一个新文件夹。且文件夹的名字根据时间自动生成。
 
->>> import os
->>> import time
+>>> import os  
+>>> import time  
 >>> folder = time.strftime(r"%Y-%m-%d_%H-%M-%S",time.localtime())
 >>> os.makedirs(r'%s/%s'%(os.getcwd(),folder)) #创建以时间命名文件夹名
 这是运行脚本的目录即'C:\\Python27'下多了一个以当前时间命名的文件夹
