@@ -1,4 +1,5 @@
-* # encoding=utf-8
+*
+# encoding=utf-8
 # 作者：Admin
 # 日期：2021/9/14 10:30
 # 工具：PyCharm
@@ -55,7 +56,8 @@ import pymysql
         data = self.curors.rowcount
         self.curors.close()
         return data
-* # 取数据,[dict]类型返回
+*
+# 取数据,[dict]类型返回
     def get_json(self, sql):
         self.curors = self.database.cursor()
         self.curors.execute(sql)
